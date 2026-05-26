@@ -1,6 +1,8 @@
 import java.util.*;
 public class Main {
     static Scanner sc = new Scanner(System.in);
+    static SistemaEstudiantes SisEst = new SistemaEstudiantes();
+    static SistemaProfesor SisProf = new SistemaProfesor();
     public static void main(String[] args) {
         menu();
     }
@@ -34,10 +36,10 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    System.out.println("Registrar estudiante");
+                    SisEst.registrarEstudiante(sc);
                     break;
                 case 2:
-                    System.out.println("Registrar profesor");
+                    SisProf.registrarProfesor(sc);
                     break;
                 case 3:
                     System.out.println("Registrar materia");
