@@ -8,6 +8,13 @@ public class SistemaEstudiantes {
         System.out.print("\n|> Ingrese la matrícula: ");
         String matricula = sc.nextLine();
 
+        for (Estudiante e : estudiantes) {
+            if (e.getMatricula().equalsIgnoreCase(matricula)) {
+                System.out.println("Ya existe un estudiante con esa matrícula.");
+                return;
+            }
+        }
+
         while (matricula.isEmpty()) {
             System.out.print("La matrícula no puede estar vacía. \n|> Ingrese una matrícula válida: ");
             matricula = sc.nextLine();
@@ -60,25 +67,25 @@ public class SistemaEstudiantes {
             System.out.print("La fecha de inscripción no puede estar vacía. \n|> Ingrese una fecha de inscripción: ");
             fechaInscripcion = sc.nextLine();
         }
-
         Estudiante estudiante = new Estudiante(matricula, nombre, apellido, edad, carrera, fechaInscripcion);
         estudiantes.add(estudiante);
+        System.out.println("\nEstudiante registrado.");
     }
 
     public void buscarEstudiante(Scanner sc) {
         System.out.print("\n|> Ingrese la matrícula del estudiante a buscar: ");
         String matricula = sc.nextLine();
 
-        System.out.println("\n================================");
-        System.out.println("Resultado de la búsqueda");
+        System.out.println("\nRESULTADO DE LA BÚSQUEDA: " + matricula);
+        System.out.println("================================");
+
         for (Estudiante e : estudiantes) {
             if (e.getMatricula().equalsIgnoreCase(matricula)) {
                 System.out.println(e.toString());
                 return;
             }
         }
-
-        System.out.println("Estudiante no encontrado.");
+        System.out.println("\nEstudiante no encontrado.");
     }
 
     public void asignarMateria(Scanner sc) {
@@ -107,7 +114,6 @@ public class SistemaEstudiantes {
 
         for (Materia m : SistemaMateria.materias) {
             if (m.getCodigo().equalsIgnoreCase(codigo)) {
-
                 materia = m;
                 break;
             }
@@ -118,8 +124,15 @@ public class SistemaEstudiantes {
             return;
         }
 
+        for (Materia m : estudiante.getMaterias()) {
+            if (m.getCodigo().equalsIgnoreCase(materia.getCodigo())) {
+                System.out.println("La materia ya está asignada a este estudiante.");
+                return;
+            }
+        }
+
         estudiante.getMaterias().add(materia);
-        System.out.println("Materia asignada.");
+        System.out.println("\nMateria asignada.");
     }
 
     public void registrarCalificacion(Scanner sc, SistemaMateria sisMat) {
@@ -136,7 +149,7 @@ public class SistemaEstudiantes {
         }
 
         if (estudiante == null) {
-            System.out.println("Estudiante no encontrado.");
+            System.out.println("\nEstudiante no encontrado.");
             return;
         }
 
@@ -145,6 +158,18 @@ public class SistemaEstudiantes {
 
         for (Materia m : estudiante.getMaterias()) {
             if (m.getCodigo().equalsIgnoreCase(codigo)) {
+                if (m.getCalificacion() > 0) {
+                    System.out.println(
+                            "\nLa materia ya tiene una calificación registrada: "+ m.getCalificacion());
+
+                    System.out.print("¿Desea reemplazarla? (S/N): ");
+                    String respuesta = sc.nextLine();
+
+                    if (!respuesta.equalsIgnoreCase("S")) {
+                        System.out.println("\nOperación cancelada.");
+                        return;
+                    }
+                }
 
                 System.out.print("|> Ingrese la calificación: ");
                 double nota = sc.nextDouble();
@@ -152,12 +177,11 @@ public class SistemaEstudiantes {
 
                 m.setCalificacion(nota);
 
-                System.out.println("Calificación registrada.");
+                System.out.println("\nCalificación registrada.");
                 return;
             }
         }
-
-        System.out.println("La materia no fue asignada al estudiante.");
+        System.out.println("\nLa materia no fue asignada al estudiante.");
     }
 
     public void mostrarEstudiantes() {
@@ -184,16 +208,13 @@ public class SistemaEstudiantes {
         System.out.println("\n================================");
         System.out.println("     Reporte de Promedios       ");
         System.out.println("================================");
+
         for (Estudiante e : estudiantes) {
             System.out.println("\n================================");
-            System.out.println("Estudiante: "
-                    + e.getNombre() + " "
-                    + e.getApellido());
+            System.out.println("Estudiante: " + e.getNombre() + " " + e.getApellido());
 
             System.out.println("--------------------------------");
-            System.out.printf("%-25s %s%n",
-                    "Materia",
-                    "Calificación");
+            System.out.printf("%-25s %s%n", "Materia", "Calificación");
 
             double sumaPonderada = 0;
             int totalCreditos = 0;
@@ -204,23 +225,32 @@ public class SistemaEstudiantes {
                         m.getCalificacion());
 
                 sumaPonderada += m.getCalificacion() * m.getCreditos();
-
                 totalCreditos += m.getCreditos();
             }
 
-            double promedio = 0;
-
-            if (totalCreditos > 0) {
-                promedio = sumaPonderada / totalCreditos;
-            }
-
             System.out.println("--------------------------------");
-            System.out.printf("Promedio: %.2f%n", promedio);
 
-            if (promedio >= 70) {
-                System.out.println("Estado: Aprobado");
+            if (e.getMaterias().isEmpty()) {
+                System.out.println("\nNo se puede calcular el promedio.");
+                System.out.println("El estudiante no tiene materias asignadas.");
+            } else if (e.getMaterias().size() == 1) {
+                double nota = e.getMaterias().get(0).getCalificacion();
+
+                System.out.printf("Calificación: %.2f%n", nota);
+
+                if (nota >= 70)
+                    System.out.println("Estado: Aprobado");
+                else
+                    System.out.println("Estado: Reprobado");
             } else {
-                System.out.println("Estado: Reprobado");
+                double promedio = sumaPonderada / totalCreditos;
+
+                System.out.printf("Promedio: %.2f%n", promedio);
+
+                if (promedio >= 70)
+                    System.out.println("Estado: Aprobado");
+                else
+                    System.out.println("Estado: Reprobado");
             }
         }
     }

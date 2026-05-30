@@ -8,6 +8,13 @@ public class SistemaMateria {
         System.out.print("\n|> Ingrese el código de la materia: ");
         String codigo = sc.nextLine();
 
+        for (Materia m : materias) {
+            if (m.getCodigo().equalsIgnoreCase(codigo)) {
+                System.out.println("Ya existe una materia con ese código.");
+                return;
+            }
+        }
+
         while (codigo.isEmpty()) {
             System.out.print("Código inválido. \n|> Ingrese un código válido: ");
             codigo = sc.nextLine();
@@ -33,6 +40,7 @@ public class SistemaMateria {
 
         Materia materia = new Materia(codigo, nombre, creditos);
         materias.add(materia);
+        System.out.println("\nMateria registrada exitosamente.");
     }
 
     public Materia buscarMateria(Scanner sc) {
@@ -41,13 +49,13 @@ public class SistemaMateria {
 
         System.out.println("Resultado de la búsqueda: " + codigoMateria);
         System.out.println("\n================================");
+
         for (Materia m : materias) {
             if (m.getCodigo().equalsIgnoreCase(codigoMateria)) {
                 return m;
             }
         }
-
-        System.out.println("Materia no encontrada.");
+        System.out.println("\nMateria no encontrada.");
         return null;
     }
 
@@ -56,6 +64,7 @@ public class SistemaMateria {
         System.out.println("\n================================");
         System.out.println("     Materias registradas       ");
         System.out.println("================================");
+
         if (materias.isEmpty()) {
             System.out.println("\nNo hay materias registradas.");
             return;
