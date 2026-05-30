@@ -1,42 +1,42 @@
-public class Estudiante {
+import java.util.*;
+
+public class Estudiante extends Persona {
     private String matricula;
-    private String nombre;
-    private String apellido;
     private int edad;
     private String carrera;
     private String fechaInscripcion;
+    private ArrayList<Materia> materias;
 
     // Constructores
 
     public Estudiante() {
+        super("", "");
         setMatricula("");
-        setNombre("");
-        setApellido("");
         setEdad(0);
         setCarrera("");
         setFechaInscripcion("");
+
+        materias = new ArrayList<>();
     }
 
     public Estudiante(String matricula, String nombre, String apellido, int edad, String carrera, String fechaInscripcion) {
+        super(nombre, apellido);
         setMatricula(matricula);
-        setNombre(nombre);
-        setApellido(apellido);
         setEdad(edad);
         setCarrera(carrera);
         setFechaInscripcion(fechaInscripcion);
+
+        materias = new ArrayList<>();
     }
+
 
     // Getters and Setters
+    public ArrayList<Materia> getMaterias() {
+        return materias;
+    }
+
     public String getMatricula() {
         return matricula;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
     }
 
     public int getEdad() {
@@ -50,17 +50,9 @@ public class Estudiante {
     public String getFechaInscripcion() {
         return fechaInscripcion;
     }
-
+    
     public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
     }
 
     public void setEdad(int edad) {
@@ -76,11 +68,10 @@ public class Estudiante {
     }
 
     public String toString() {
-        return "Matrícula: " + getMatricula() +
-                "\nNombre: " + getNombre() +
-                "\nApellido: " + getApellido() +
-                "\nEdad: " + getEdad() +
-                "\nCarrera: " + getCarrera() +
-                "\nFecha de Inscripción: " + getFechaInscripcion();
+        return super.toString() + 
+               "\nMatrícula: " + getMatricula() + 
+               "\nEdad: " + getEdad() + 
+               "\nCarrera: " + getCarrera() + 
+               "\nFecha de Inscripción: " + getFechaInscripcion();
     }
 }

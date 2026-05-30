@@ -1,23 +1,19 @@
-public class Profesor {
+public class Profesor extends Persona {
 
     private String codigo;
-    private String nombre;
-    private String apellido;
     private String especialidad;
 
     // Constructores
 
     public Profesor() {
+        super("", "");
         setCodigo("");
-        setNombre("");
-        setApellido("");
         setEspecialidad("");
     }
 
     public Profesor(String codigo, String nombre, String apellido, String especialidad) {
+        super(nombre, apellido);
         setCodigo(codigo);
-        setNombre(nombre);
-        setApellido(apellido);
         setEspecialidad(especialidad);
     }
 
@@ -25,14 +21,6 @@ public class Profesor {
     public String getCodigo() {
         return codigo;
     }   
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
 
     public String getEspecialidad() {
         return especialidad;
@@ -42,15 +30,13 @@ public class Profesor {
         this.codigo = codigo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
+    }
+
+    public String toString() {
+        return super.toString() + 
+               "\nCódigo: " + getCodigo() + 
+               "\nEspecialidad: " + getEspecialidad();
     }
 }

@@ -1,8 +1,11 @@
 import java.util.*;
+
 public class Main {
+
     static Scanner sc = new Scanner(System.in);
     static SistemaEstudiantes SisEst = new SistemaEstudiantes();
     static SistemaProfesor SisProf = new SistemaProfesor();
+    static SistemaMateria SisMat = new SistemaMateria();
     public static void main(String[] args) {
         menu();
     }
@@ -12,15 +15,7 @@ public class Main {
         int opcion;
 
         do{
-            System.out.print("Ingrese su opción: ");
-            opcion = sc.nextInt();
-
-            while(opcion < 1 || opcion > 10){
-                System.out.print("Opción inválida. \nIngrese una opción válida: ");
-                opcion = sc.nextInt();
-            }
-
-            System.out.println("====================================");
+            System.out.println("\n====================================");
             System.out.println("    SISTEMA DE GESTIÓN ACADÉMICA    ");
             System.out.println("====================================");
             System.out.println("1. Registrar estudiante");
@@ -34,6 +29,16 @@ public class Main {
             System.out.println("9. Mostrar reporte de promedios");
             System.out.println("10. Salir");
 
+            System.out.print("\nIngrese su opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine(); 
+
+            while(opcion < 1 || opcion > 10){
+                System.out.print("\nOpción inválida. \nIngrese una opción válida: ");
+                opcion = sc.nextInt();
+                sc.nextLine();
+            }
+
             switch (opcion) {
                 case 1:
                     SisEst.registrarEstudiante(sc);
@@ -42,28 +47,28 @@ public class Main {
                     SisProf.registrarProfesor(sc);
                     break;
                 case 3:
-                    System.out.println("Registrar materia");
+                    SisMat.registrarMateria(sc);
                     break;
                 case 4:
-                    System.out.println("Asignar materia a estudiante");
+                    SisEst.asignarMateria(sc);
                     break;
                 case 5:
-                    System.out.println("Registrar calificación");
+                    SisEst.registrarCalificacion(sc, SisMat);
                     break;
                 case 6:
-                    System.out.println("Buscar estudiante");
+                    SisEst.buscarEstudiante(sc);
                     break;
                 case 7:
-                    System.out.println("Mostrar estudiantes");
+                    SisEst.mostrarEstudiantes();
                     break;
                 case 8:
-                    System.out.println("Mostrar materias");
+                    SisMat.mostrarMaterias();
                     break;
                 case 9:
-                    System.out.println("Mostrar reporte de promedios");
+                    SisEst.mostrarReportePromedios();
                     break;
                 case 10:
-                    System.out.println("Saliendo del sistema...");
+                    System.out.println("\nSaliendo del sistema...");
                     break;
             }
         }while (opcion != 10);
