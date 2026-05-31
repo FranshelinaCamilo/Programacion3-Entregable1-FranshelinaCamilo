@@ -50,7 +50,7 @@ public class Main {
                     SisMat.registrarMateria(sc);
                     break;
                 case 4:
-                    SisEst.asignarMateria(sc);
+                    SisEst.asignarMateria(sc, SisMat);
                     break;
                 case 5:
                     SisEst.registrarCalificacion(sc, SisMat);

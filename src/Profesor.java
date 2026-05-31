@@ -34,6 +34,7 @@ public class Profesor extends Persona {
         this.especialidad = especialidad;
     }
 
+    @Override
     public String toString() {
         return super.toString() + 
                "\nCódigo: " + getCodigo() + 

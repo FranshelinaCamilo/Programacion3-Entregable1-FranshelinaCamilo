@@ -5,7 +5,7 @@ public class Materia {
     private int creditos;
     private double calificacion;
 
-    //Constructores
+    // Constructores
     public Materia() {
         setCodigo("");
         setNombre("");
@@ -20,7 +20,15 @@ public class Materia {
         setCalificacion(0);
     }
 
-    //Getters y Setters
+    // Constructor copia 
+    public Materia(Materia otraMateria) {
+        setCodigo(otraMateria.getCodigo());
+        setNombre(otraMateria.getNombre());
+        setCreditos(otraMateria.getCreditos());
+        setCalificacion(0); 
+    }
+
+    // Getters y Setters
     public String getCodigo() {
         return codigo;
     }
@@ -54,8 +62,8 @@ public class Materia {
     }
 
     public String toString() {
-        return "Código: " + getCodigo() + 
-               "\nNombre: " + getNombre() + 
-               "\nCréditos: " + getCreditos();
+        return "Código: " + getCodigo() +
+                "\nNombre: " + getNombre() +
+                "\nCréditos: " + getCreditos();
     }
 }

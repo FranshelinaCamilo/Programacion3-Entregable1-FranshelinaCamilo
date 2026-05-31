@@ -2,7 +2,11 @@ import java.util.*;
 
 public class SistemaMateria {
 
-    static ArrayList<Materia> materias = new ArrayList<>();
+    private ArrayList<Materia> materias = new ArrayList<>();
+
+    public ArrayList<Materia> getMaterias() {
+        return materias;
+    }
 
     public void registrarMateria(Scanner sc) {
         System.out.print("\n|> Ingrese el código de la materia: ");

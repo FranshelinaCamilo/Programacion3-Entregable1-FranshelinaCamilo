@@ -21,11 +21,6 @@ public class SistemaEstudiantes {
 
         }
 
-        while (matricula.isEmpty()) {
-            System.out.print("La matrícula debe tener al menos 5 caracteres. \n|> Ingrese una matrícula válida: ");
-            matricula = sc.nextLine();
-        }
-
         System.out.print("|> Ingrese el nombre: ");
         String nombre = sc.nextLine();
 
@@ -73,14 +68,14 @@ public class SistemaEstudiantes {
     }
 
     public void buscarEstudiante(Scanner sc) {
-        System.out.print("\n|> Ingrese la matrícula del estudiante a buscar: ");
-        String matricula = sc.nextLine();
+        System.out.print("\n|> Ingrese la matrícula o nombredel estudiante a buscar: ");
+        String criterio = sc.nextLine();
 
-        System.out.println("\nRESULTADO DE LA BÚSQUEDA: " + matricula);
+        System.out.println("\nRESULTADO DE LA BÚSQUEDA: " + criterio);
         System.out.println("================================");
 
         for (Estudiante e : estudiantes) {
-            if (e.getMatricula().equalsIgnoreCase(matricula)) {
+            if (e.getMatricula().equalsIgnoreCase(criterio) || e.getNombre().equalsIgnoreCase(criterio)) {
                 System.out.println(e.toString());
                 return;
             }
@@ -88,15 +83,13 @@ public class SistemaEstudiantes {
         System.out.println("\nEstudiante no encontrado.");
     }
 
-    public void asignarMateria(Scanner sc) {
+    public void asignarMateria(Scanner sc, SistemaMateria sisMat) {
         System.out.print("\n|> Ingrese la matrícula del estudiante: ");
         String matricula = sc.nextLine();
 
         Estudiante estudiante = null;
-
         for (Estudiante e : estudiantes) {
             if (e.getMatricula().equalsIgnoreCase(matricula)) {
-
                 estudiante = e;
                 break;
             }
@@ -110,28 +103,28 @@ public class SistemaEstudiantes {
         System.out.print("|> Ingrese el código de la materia: ");
         String codigo = sc.nextLine();
 
-        Materia materia = null;
+        Materia materiaOriginal = null;
 
-        for (Materia m : SistemaMateria.materias) {
+        for (Materia m : sisMat.getMaterias()) {
             if (m.getCodigo().equalsIgnoreCase(codigo)) {
-                materia = m;
+                materiaOriginal = m;
                 break;
             }
         }
 
-        if (materia == null) {
+        if (materiaOriginal == null) {
             System.out.println("Materia no encontrada.");
             return;
         }
 
         for (Materia m : estudiante.getMaterias()) {
-            if (m.getCodigo().equalsIgnoreCase(materia.getCodigo())) {
+            if (m.getCodigo().equalsIgnoreCase(materiaOriginal.getCodigo())) {
                 System.out.println("La materia ya está asignada a este estudiante.");
                 return;
             }
         }
 
-        estudiante.getMaterias().add(materia);
+        estudiante.getMaterias().add(new Materia(materiaOriginal));
         System.out.println("\nMateria asignada.");
     }
 
@@ -160,13 +153,13 @@ public class SistemaEstudiantes {
             if (m.getCodigo().equalsIgnoreCase(codigo)) {
                 if (m.getCalificacion() > 0) {
                     System.out.println(
-                            "\nLa materia ya tiene una calificación registrada: "+ m.getCalificacion());
+                            "\nLa materia ya tiene una calificación registrada: " + m.getCalificacion());
 
                     System.out.print("¿Desea reemplazarla? (S/N): ");
                     String respuesta = sc.nextLine();
 
                     if (!respuesta.equalsIgnoreCase("S")) {
-                        System.out.println("\nOperación cancelada.");
+                        System.out.println("\nCancelada.");
                         return;
                     }
                 }
@@ -174,6 +167,12 @@ public class SistemaEstudiantes {
                 System.out.print("|> Ingrese la calificación: ");
                 double nota = sc.nextDouble();
                 sc.nextLine();
+
+                while (nota < 0 || nota > 100) {
+                    System.out.print("Calificación inválida (0-100). \n|> Ingrese de nuevo: ");
+                    nota = sc.nextDouble();
+                    sc.nextLine();
+                }
 
                 m.setCalificacion(nota);
 
@@ -214,13 +213,13 @@ public class SistemaEstudiantes {
             System.out.println("Estudiante: " + e.getNombre() + " " + e.getApellido());
 
             System.out.println("--------------------------------");
-            System.out.printf("%-25s %s%n", "Materia", "Calificación");
+            System.out.printf("%-25s %s\n", "Materia", "Calificación");
 
             double sumaPonderada = 0;
             int totalCreditos = 0;
 
             for (Materia m : e.getMaterias()) {
-                System.out.printf("%-25s %.2f%n",
+                System.out.printf("%-25s %.2f\n",
                         m.getNombre(),
                         m.getCalificacion());
 
@@ -236,7 +235,7 @@ public class SistemaEstudiantes {
             } else if (e.getMaterias().size() == 1) {
                 double nota = e.getMaterias().get(0).getCalificacion();
 
-                System.out.printf("Calificación: %.2f%n", nota);
+                System.out.printf("Calificación: %.2f\n", nota);
 
                 if (nota >= 70)
                     System.out.println("Estado: Aprobado");
@@ -245,7 +244,7 @@ public class SistemaEstudiantes {
             } else {
                 double promedio = sumaPonderada / totalCreditos;
 
-                System.out.printf("Promedio: %.2f%n", promedio);
+                System.out.printf("Promedio: %.2f\n", promedio);
 
                 if (promedio >= 70)
                     System.out.println("Estado: Aprobado");

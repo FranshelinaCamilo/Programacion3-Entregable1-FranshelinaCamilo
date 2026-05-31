@@ -67,6 +67,7 @@ public class Estudiante extends Persona {
         this.fechaInscripcion = fechaInscripcion;
     }
 
+    @Override
     public String toString() {
         return super.toString() + 
                "\nMatrícula: " + getMatricula() + 
