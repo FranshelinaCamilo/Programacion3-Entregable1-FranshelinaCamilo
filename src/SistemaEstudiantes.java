@@ -68,7 +68,7 @@ public class SistemaEstudiantes {
     }
 
     public void buscarEstudiante(Scanner sc) {
-        System.out.print("\n|> Ingrese la matrícula o nombredel estudiante a buscar: ");
+        System.out.print("\n|> Ingrese la matrícula o nombre del estudiante a buscar: ");
         String criterio = sc.nextLine();
 
         System.out.println("\nRESULTADO DE LA BÚSQUEDA: " + criterio);
